@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" class="message">
+    <button onclick="Send()">Send Message</button>
+    <ul></ul>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <script>
+        const sockect = io('http://127.0.0.1:3001')
+        sockect.on('connection')
+        function Send() {
+            const magin = document.querySelector('.message')
+            const message = magin.value
+            sockect.emit('message',message)
+            magin.value = ""
+        }
+        sockect.on('message',(data) => {
+            const nm = document.createElement('li')
+            nm.innerHTML = data
+            document.querySelector('ul').appendChild(nm)
+        })
+    </script>
+</body>
+</html>
